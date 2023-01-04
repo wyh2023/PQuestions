@@ -26,7 +26,7 @@ STRING
     ;
 
 query
-    : SELECT columnList FROM table WHERE predicate EOF
+    : SELECT columnList FROM table WHERE where EOF
     ;
 
 columnList
@@ -34,12 +34,32 @@ columnList
     | columnList ',' columnList
     ;
 
+where
+    : predicate
+    | andPredicate
+    | orPredicate
+    | negPredicate
+    ;
+
+andPredicate
+    : predicate AND predicate
+    ;
+
+orPredicate
+    : predicate OR predicate
+    ;
+
+negPredicate
+    : NOT predicate
+    ;
+
 predicate
     : IDENTIFIER '=' IDENTIFIER
     | IDENTIFIER '=' value
-    | predicate AND predicate
-    | predicate OR predicate
-    | NOT predicate
+    ;
+
+andPred
+    :
     ;
 
 table

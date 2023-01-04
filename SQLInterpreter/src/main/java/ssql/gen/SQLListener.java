@@ -1,4 +1,4 @@
-package ssql.gen;// Generated from java-escape by ANTLR 4.11.1
+package ssql.gen;
 
 // Generated from java-escape by ANTLR 4.11.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -29,6 +29,46 @@ public interface SQLListener extends ParseTreeListener {
 	 */
 	void exitColumnList(SQLParser.ColumnListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SQLParser#where}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhere(SQLParser.WhereContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLParser#where}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhere(SQLParser.WhereContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLParser#andPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndPredicate(SQLParser.AndPredicateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLParser#andPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndPredicate(SQLParser.AndPredicateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLParser#orPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrPredicate(SQLParser.OrPredicateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLParser#orPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrPredicate(SQLParser.OrPredicateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLParser#negPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterNegPredicate(SQLParser.NegPredicateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLParser#negPredicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitNegPredicate(SQLParser.NegPredicateContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SQLParser#predicate}.
 	 * @param ctx the parse tree
 	 */
@@ -38,6 +78,16 @@ public interface SQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPredicate(SQLParser.PredicateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLParser#andPred}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndPred(SQLParser.AndPredContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLParser#andPred}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndPred(SQLParser.AndPredContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLParser#table}.
 	 * @param ctx the parse tree
