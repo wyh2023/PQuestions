@@ -11,6 +11,7 @@ public class Main {
         SSQLEngine engine = SSQLEngine.getInstance();
         File file = new File("src/main/resources/ssql/Simple.ssql");
         engine.input(file);
+        engine.output("Simple");
     }
 
 }

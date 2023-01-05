@@ -8,6 +8,7 @@ import dbEngine.storage.Storage;
 import dbEngine.storage.StorageFactory;
 import dbEngine.storage.StorageManager;
 import exception.UnsupportedFileException;
+import utils.FormatUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -73,7 +74,12 @@ public class SSQLEngine {
                 e.printStackTrace();
             }
         }
-        int check = 1;
+    }
+
+    public void output(String tableName) {
+        Storage targetTable = storageManager.queryTable(tableName);
+        FormatUtil formatUtil = new FormatUtil();
+        formatUtil.output(targetTable.selectAll(), cols.getColNames(tableName));
     }
 
 }

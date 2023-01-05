@@ -1,6 +1,5 @@
 package dbEngine.storage;
 
-import java.awt.Stroke;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -4,6 +4,7 @@ import dbEngine.document.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MapDocStorage extends Storage {
 
@@ -18,4 +19,8 @@ public class MapDocStorage extends Storage {
         return documents.add(document);
     }
 
+    @Override
+    public Stream<Document> selectAll() {
+        return documents.stream();
+    }
 }
