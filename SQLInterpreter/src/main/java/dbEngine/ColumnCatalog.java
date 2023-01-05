@@ -41,4 +41,12 @@ public class ColumnCatalog {
         return table2colNames.get(tableName).stream();
     }
 
+    public boolean contains(String tableName, String colName) {
+        if (table2colNames.containsKey(tableName)) {
+            List<String> colNames = table2colNames.get(tableName);
+            return colNames.contains(colName);
+        }
+        return false;
+    }
+
 }

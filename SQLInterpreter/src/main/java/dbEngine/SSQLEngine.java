@@ -56,7 +56,7 @@ public class SSQLEngine {
         }
 
         String tableName = fileName.substring(0, fileName.length() - 5);
-        if (!tables.isTableExist(tableName)) {
+        if (!tables.contains(tableName)) {
             try {
                 FileInputStream stream = new FileInputStream(ssqlFile);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));

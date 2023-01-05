@@ -21,7 +21,7 @@ public class TableCatalog {
         return tableCatalog;
     }
 
-    public boolean isTableExist(String tableName) {
+    public boolean contains(String tableName) {
         return tableNames.contains(tableName);
     }
 
