@@ -22,4 +22,8 @@ public class SSQLMapDocument extends Document {
         }
     }
 
+    @Override
+    public String getColumn(String col) {
+        return record.get(col);
+    }
 }

@@ -9,6 +9,8 @@ public abstract class Document {
 
     public abstract Stream<Map.Entry<String, String>> retrieve();
 
+    public abstract String getColumn(String col);
+
     public int getLen() {
         return len;
     }

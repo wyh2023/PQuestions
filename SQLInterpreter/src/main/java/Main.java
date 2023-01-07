@@ -17,7 +17,7 @@ public class Main {
     public static SSQLErrorListener errorListener = new SSQLErrorListener();
 
     public static void main(String[] args) {
-        String textStr = "select Namie from Simple where City = Beijing";
+        String textStr = "select Name,City from Simple where City = Beijing";
 
         System.out.println();
         System.out.println(textStr);
@@ -38,7 +38,7 @@ public class Main {
         QueryChecker checker = new QueryChecker();
         if (!checker.check(info)) return;
 
-        engine.output("Simple");
+        engine.output(info);
     }
 
 }

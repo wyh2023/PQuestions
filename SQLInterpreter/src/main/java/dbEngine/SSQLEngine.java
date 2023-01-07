@@ -8,6 +8,7 @@ import dbEngine.storage.Storage;
 import dbEngine.storage.StorageFactory;
 import dbEngine.storage.StorageManager;
 import exception.UnsupportedFileException;
+import ssql.info.QueryInfo;
 import utils.FormatUtil;
 
 import java.io.BufferedReader;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.stream.Stream;
 
 public class SSQLEngine {
 
@@ -74,6 +76,22 @@ public class SSQLEngine {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void execute(QueryInfo info) {
+        String tableName = info.getTable();
+        Storage targetTable = storageManager.queryTable(tableName);
+        Stream<Document> result = targetTable.cut(info.getColumns(), targetTable.selectAll());
+        output(result, info.getColumns().stream());
+    }
+
+    public void output(QueryInfo info) {
+        execute(info);
+    }
+
+    public void output(Stream<Document> table, Stream<String> columnNames) {
+        FormatUtil formatUtil = new FormatUtil();
+        formatUtil.output(table, columnNames);
     }
 
     public void output(String tableName) {

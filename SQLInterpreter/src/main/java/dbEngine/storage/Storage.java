@@ -1,7 +1,9 @@
 package dbEngine.storage;
 
 import dbEngine.document.Document;
+import ssql.info.predicate.Predicate;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Storage {
@@ -19,4 +21,8 @@ public abstract class Storage {
     public String getTableName() {
         return tableName;
     }
+
+    public abstract Stream<Document> select(List<Predicate> predicates);
+
+    public abstract Stream<Document> cut(List<String> columns, Stream<Document> res);
 }
