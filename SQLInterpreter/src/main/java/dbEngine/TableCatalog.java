@@ -3,6 +3,7 @@ package dbEngine;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class TableCatalog {
 
@@ -27,6 +28,10 @@ public class TableCatalog {
 
     public void addTable(String tableName) {
         tableNames.add(tableName);
+    }
+
+    public Stream<String> traverseTables() {
+        return tableNames.stream();
     }
 
 }

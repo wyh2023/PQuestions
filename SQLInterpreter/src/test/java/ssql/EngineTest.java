@@ -35,6 +35,12 @@ public class EngineTest {
     public static SSQLVisitor visitor = new SSQLVisitor();
     public static SSQLErrorListener errorListener = new SSQLErrorListener();
 
+    public static String dir = "src/main/resources/ssql/";
+
+    public static String yamlDir = "src/main/resources/ssql.yml";
+
+    public static String expectedDir = "src/test/resources/Engine-Expected/";
+
     @Before
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
@@ -48,45 +54,44 @@ public class EngineTest {
     }
 
     @Test
-    public void out() {
-        System.out.print("hello");
-        assertEquals("hello", outContent.toString());
-    }
-
-    @Test
     public void simpleTest() {
-        handler.resolve("src/main/resources/ssql.yml");
-        File file = new File("src/main/resources/ssql/Simple.ssql");
+        handler.resolve(yamlDir);
+        File file = new File(dir + "Simple.ssql");
         engine.input(file);
-        engine.output("Simple");
-        String expected = readExpected("src/test/resources/Simple-Expected.txt");
+        engine.outputAll("Simple");
+        String expected = readExpected("Simple");
         assertEquals(expected, outContent.toString());
     }
 
     @Test
     public void checkTableTest() {
-        String textStr = "select Namie from Simple where City = Beijing";
+        EngineTest("select Namie from Simple where City = Beijing",
+                "checkTableTest"
+        );
+    }
 
-        SQLLexer lexer = new SQLLexer(CharStreams.fromString(textStr));
+    private void EngineTest(String input, String testName) {
+        SQLLexer lexer = new SQLLexer(CharStreams.fromString(input));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         SQLParser parser = new SQLParser(tokenStream);
         parser.addErrorListener(errorListener);
 
         EngineOptionsHandler handler = new EngineOptionsHandler();
-        handler.resolve("src/main/resources/ssql.yml");
+        handler.resolve(yamlDir);
         SSQLEngine engine = SSQLEngine.getInstance();
-        File file = new File("src/main/resources/ssql/Simple.ssql");
+        File file = new File(dir + testName + ".ssql");
         engine.input(file);
 
         QueryInfo info = (QueryInfo) parser.query().accept(visitor);
         QueryChecker checker = new QueryChecker();
         checker.check(info);
 
-        engine.output("Simple");
-        assertEquals("Column: Namie is undefined in Simple!\n", errContent.toString());
+        engine.output(info);
+        assertEquals(readExpected(testName), errContent.toString());
     }
 
-    private String readExpected(String fileName) {
+    private String readExpected(String testName) {
+        String fileName = expectedDir + testName + "-Expected.txt";
         StringBuilder sb = new StringBuilder();
         File file = new File(fileName);
         String line;

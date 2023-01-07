@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact name="SQLInterpreter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SQLInterpreter_jar</output-path>
+    <root id="root">
+      <element id="archive" name="SQLInterpreter.jar">
+        <element id="module-output" name="SQLInterpreter" />
+      </element>
+      <element id="library" level="project" name="Maven: org.antlr:antlr-runtime:3.5.3" />
+      <element id="library" level="project" name="Maven: org.abego.treelayout:org.abego.treelayout.core:1.0.3" />
+      <element id="library" level="project" name="Maven: commons-cli:commons-cli:1.5.0" />
+      <element id="library" level="project" name="Maven: com.ibm.icu:icu4j:71.1" />
+      <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.1.4" />
+      <element id="library" level="project" name="Maven: org.antlr:antlr4:4.11.1" />
+      <element id="library" level="project" name="Maven: org.antlr:ST4:4.3.4" />
+      <element id="library" level="project" name="Maven: org.antlr:antlr4-runtime:4.11.1" />
+      <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.33" />
+    </root>
+  </artifact>
+</component>

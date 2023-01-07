@@ -1,5 +1,6 @@
 package utils;
 
+import dbEngine.TableCatalog;
 import dbEngine.document.Document;
 
 import java.util.ArrayList;
@@ -85,6 +86,38 @@ public class FormatUtil {
         }
         System.out.println(sb);
         sb.delete(0, sb.length());
+    }
+
+    public static void printTableNames() {
+        TableCatalog tableCatalog = TableCatalog.getInstance();
+        List<Integer> size = new ArrayList<>();
+        size.add(9);
+        List<String> tableNames = new ArrayList<>();
+        tableCatalog.traverseTables()
+                .forEach(tableName -> {
+                    size.set(0, Math.max(tableName.length(), size.get(0) + 3));
+                    tableNames.add(tableName);
+                });
+        if (tableNames.size() == 0) {
+            return;
+        }
+        System.out.print("+");
+        System.out.print("-".repeat(Math.max(0, size.get(0))));
+        System.out.println("+");
+        System.out.print("|");
+        System.out.print("Tables" + " ".repeat(Math.max(0, size.get(0) - 6)));
+        System.out.println("|");
+        System.out.print("+");
+        System.out.print("-".repeat(Math.max(0, size.get(0))));
+        System.out.println("+");
+        for (String tableName : tableNames) {
+            System.out.print("|");
+            System.out.print(tableName + " ".repeat(Math.max(0, size.get(0) - tableName.length())));
+            System.out.println("|");
+        }
+        System.out.print("+");
+        System.out.print("-".repeat(Math.max(0, size.get(0))));
+        System.out.println("+");
     }
 
 }

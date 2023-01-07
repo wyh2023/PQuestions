@@ -23,8 +23,6 @@ public class AntlrTest {
         SQLParser parser = new SQLParser(tokenStream);
         parser.addErrorListener(errorListener);
 
-        QueryInfo ret = (QueryInfo) parser.query().accept(visitor);
-
     }
 
 }

@@ -96,7 +96,7 @@ public class SSQLEngine {
         formatUtil.output(table, columnNames);
     }
 
-    public void output(String tableName) {
+    public void outputAll(String tableName) {
         Storage targetTable = storageManager.queryTable(tableName);
         FormatUtil formatUtil = new FormatUtil();
         formatUtil.output(targetTable.selectAll(), cols.getColNames(tableName));

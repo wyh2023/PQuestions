@@ -32,7 +32,6 @@ public class MapDocStorage extends Storage {
 
     @Override
     public Stream<Document> select(PredicateSet predicates) {
-        // ...
         List<Document> ret = new ArrayList<>();
         documents.stream()
                 .filter(predicates::checkContain)
