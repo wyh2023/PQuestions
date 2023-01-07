@@ -1,4 +1,6 @@
-package ssql;
+package ssql.info;
+
+import ssql.info.predicate.Predicate;
 
 import java.util.List;
 
@@ -8,9 +10,12 @@ public class QueryInfo {
 
     private final String table;
 
-    public QueryInfo(List<String> cols, String t) {
+    private final List<Predicate> predicates;
+
+    public QueryInfo(List<String> cols, String t, List<Predicate> pres) {
         columns = cols;
         table = t;
+        predicates = pres;
     }
 
     public List<String> getColumns() {
@@ -20,4 +25,10 @@ public class QueryInfo {
     public String getTable() {
         return table;
     }
+
+    public List<Predicate> getPredicates() {
+        return predicates;
+    }
+
+
 }

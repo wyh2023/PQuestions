@@ -4,6 +4,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import ssql.gen.SQLBaseVisitor;
 import ssql.gen.SQLParser;
+import ssql.info.predicate.AndSet;
+import ssql.info.predicate.EqSet;
+import ssql.info.predicate.OrSet;
+import ssql.info.predicate.Predicate;
+import ssql.info.predicate.PredicateSet;
+import ssql.info.QueryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +22,35 @@ public class SSQLVisitor extends SQLBaseVisitor {
 
     @Override
     public QueryInfo visitQuery(SQLParser.QueryContext ctx) {
-        int flag = 0;
         String table = visitTable(ctx.table());
         List<String> columnList = visitColumnList(ctx.columnList());
-        return new QueryInfo(columnList, table);
+        PredicateSet tree = visitPredicate(ctx.predicate());
+        return new QueryInfo(columnList, table, tree.getAllPredicate());
     }
 
     @Override
-    public Object visitWhere(SQLParser.WhereContext ctx) {
-        return super.visitWhere(ctx);
+    public PredicateSet visitPredicate(SQLParser.PredicateContext ctx) {
+        PredicateSet ret;
+        if (ctx.children.size() == 2) {
+            ret = visitPredicate((SQLParser.PredicateContext) ctx.getChild(1));
+        } else {
+            ParseTree left = ctx.getChild(0);
+            ParseTree operator = ctx.getChild(1);
+            ParseTree right = ctx.getChild(2);
+            if (operator.getText().equals("=")) {
+                Predicate predicate = new Predicate(left.getText(), right.getText(), true);
+                ret = new EqSet(predicate);
+            } else if (operator.getText().equals("and")) {
+                PredicateSet leftSet = visitPredicate((SQLParser.PredicateContext) left);
+                PredicateSet rightSet = visitPredicate((SQLParser.PredicateContext) right);
+                ret = new AndSet(leftSet, rightSet);
+            } else {
+                PredicateSet leftSet = visitPredicate((SQLParser.PredicateContext) left);
+                PredicateSet rightSet = visitPredicate((SQLParser.PredicateContext) right);
+                ret = new OrSet(leftSet, rightSet);
+            }
+        }
+        return ret;
     }
 
     @Override
