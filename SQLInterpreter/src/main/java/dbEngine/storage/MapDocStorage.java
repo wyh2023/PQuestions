@@ -3,6 +3,7 @@ package dbEngine.storage;
 import dbEngine.document.Document;
 import dbEngine.document.SSQLMapDocument;
 import ssql.info.predicate.Predicate;
+import ssql.info.predicate.PredicateSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,13 @@ public class MapDocStorage extends Storage {
     }
 
     @Override
-    public Stream<Document> select(List<Predicate> predicates) {
+    public Stream<Document> select(PredicateSet predicates) {
         // ...
-        return null;
+        List<Document> ret = new ArrayList<>();
+        documents.stream()
+                .filter(predicates::checkContain)
+                .forEach(ret::add);
+        return ret.stream();
     }
 
     // TODO: optimize this method.

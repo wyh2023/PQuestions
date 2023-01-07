@@ -23,6 +23,11 @@ public class SSQLMapDocument extends Document {
     }
 
     @Override
+    public boolean judge(String column, String content) {
+        return record.get(column).equals(content);
+    }
+
+    @Override
     public String getColumn(String col) {
         return record.get(col);
     }

@@ -1,6 +1,7 @@
 package ssql.info;
 
 import ssql.info.predicate.Predicate;
+import ssql.info.predicate.PredicateSet;
 
 import java.util.List;
 
@@ -10,12 +11,12 @@ public class QueryInfo {
 
     private final String table;
 
-    private final List<Predicate> predicates;
+    private final PredicateSet predicates;
 
-    public QueryInfo(List<String> cols, String t, List<Predicate> pres) {
+    public QueryInfo(List<String> cols, String t, PredicateSet predicateSet) {
         columns = cols;
         table = t;
-        predicates = pres;
+        predicates = predicateSet;
     }
 
     public List<String> getColumns() {
@@ -26,9 +27,11 @@ public class QueryInfo {
         return table;
     }
 
-    public List<Predicate> getPredicates() {
-        return predicates;
+    public List<Predicate> getAllPredicates() {
+        return predicates.getAllPredicate();
     }
 
-
+    public PredicateSet getPredicateSet() {
+        return predicates;
+    }
 }

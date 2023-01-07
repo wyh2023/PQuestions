@@ -11,6 +11,8 @@ public abstract class Document {
 
     public abstract String getColumn(String col);
 
+    public abstract boolean judge(String column, String content);
+
     public int getLen() {
         return len;
     }

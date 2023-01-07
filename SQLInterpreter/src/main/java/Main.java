@@ -38,7 +38,7 @@ public class Main {
         QueryChecker checker = new QueryChecker();
         if (!checker.check(info)) return;
 
-        engine.output(info);
+        engine.execute(info);
     }
 
 }

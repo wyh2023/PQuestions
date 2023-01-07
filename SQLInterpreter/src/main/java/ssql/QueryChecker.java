@@ -20,7 +20,7 @@ public class QueryChecker {
         for (String col : columns) {
             runnable &= checkColumn(table, col);
         }
-        for (Predicate predicate : queryInfo.getPredicates()) {
+        for (Predicate predicate : queryInfo.getAllPredicates()) {
             runnable &= checkPredicate(predicate, table);
         }
         return runnable;

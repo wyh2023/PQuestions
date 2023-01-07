@@ -9,6 +9,7 @@ import dbEngine.storage.StorageFactory;
 import dbEngine.storage.StorageManager;
 import exception.UnsupportedFileException;
 import ssql.info.QueryInfo;
+import ssql.info.predicate.PredicateSet;
 import utils.FormatUtil;
 
 import java.io.BufferedReader;
@@ -81,7 +82,8 @@ public class SSQLEngine {
     public void execute(QueryInfo info) {
         String tableName = info.getTable();
         Storage targetTable = storageManager.queryTable(tableName);
-        Stream<Document> result = targetTable.cut(info.getColumns(), targetTable.selectAll());
+        Stream<Document> selectResult = targetTable.select(info.getPredicateSet());
+        Stream<Document> result = targetTable.cut(info.getColumns(), selectResult);
         output(result, info.getColumns().stream());
     }
 

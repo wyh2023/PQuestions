@@ -25,7 +25,7 @@ public class SSQLVisitor extends SQLBaseVisitor {
         String table = visitTable(ctx.table());
         List<String> columnList = visitColumnList(ctx.columnList());
         PredicateSet tree = visitPredicate(ctx.predicate());
-        return new QueryInfo(columnList, table, tree.getAllPredicate());
+        return new QueryInfo(columnList, table, tree);
     }
 
     @Override

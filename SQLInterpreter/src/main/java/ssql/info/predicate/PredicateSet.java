@@ -1,5 +1,7 @@
 package ssql.info.predicate;
 
+import dbEngine.document.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,19 @@ public abstract class PredicateSet {
             ret.addAll(rightAll);
         }
         ret.addAll(this.leaves);
+        return ret;
+    }
+
+    public boolean checkContain(Document document) {
+        boolean ret = true;
+        for (Predicate p : leaves) {
+            ret &= document.judge(p.getLVal(), p.getRVal());
+        }
+        if (left != null && right != null) {
+            boolean l = left.checkContain(document);
+            boolean r = right.checkContain(document);
+            ret &= l | r;
+        }
         return ret;
     }
 }
