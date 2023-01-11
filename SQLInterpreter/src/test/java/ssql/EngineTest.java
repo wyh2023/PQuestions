@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -66,8 +67,25 @@ public class EngineTest {
     @Test
     public void checkTableTest() {
         EngineTest("select Namie from Simple where City = Beijing",
-                "checkTableTest"
-        );
+                "checkTableTest");
+    }
+
+    @Test
+    public void testFakeInfo() {
+        EngineTest("select Name,Company,Birthday from FakeInfo where Name = Braun or Company = RathSimonis",
+                "FakeInfo");
+    }
+
+    @Test
+    public void testNotOr() {
+        EngineTest("select Name,Company,Birthday from FakeInfo where not Name = Haag or Name = Hane",
+                "NotOr");
+    }
+
+    @Test
+    public void testWholeColumn() {
+        EngineTest("select Name,Company,Birthday from FakeInfo where not Name = Name",
+                "WholeColumn");
     }
 
     private void EngineTest(String input, String testName) {
@@ -79,15 +97,18 @@ public class EngineTest {
         EngineOptionsHandler handler = new EngineOptionsHandler();
         handler.resolve(yamlDir);
         SSQLEngine engine = SSQLEngine.getInstance();
-        File file = new File(dir + testName + ".ssql");
-        engine.input(file);
+        File file = new File("src/main/resources/ssql");
+        for (File child : Objects.requireNonNull(file.listFiles()))
+            engine.input(child);
 
         QueryInfo info = (QueryInfo) parser.query().accept(visitor);
         QueryChecker checker = new QueryChecker();
-        checker.check(info);
-
-        engine.output(info);
-        assertEquals(readExpected(testName), errContent.toString());
+        if (checker.check(info)) {
+            engine.execute(info);
+            assertEquals(readExpected(testName), outContent.toString());
+        } else {
+            assertEquals(readExpected(testName), errContent.toString());
+        }
     }
 
     private String readExpected(String testName) {

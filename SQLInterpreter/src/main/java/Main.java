@@ -21,6 +21,8 @@ public class Main {
     public static SSQLVisitor visitor = new SSQLVisitor();
     public static SSQLErrorListener errorListener = new SSQLErrorListener();
 
+    public static String PROJECT_DIR = System.getProperty("user.dir");
+
     public static SSQLEngine initEngine() {
         EngineOptionsHandler handler = new EngineOptionsHandler();
         handler.resolve("src/main/resources/ssql.yml");
@@ -47,27 +49,32 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("sSQL> ");
-        String line = in.nextLine();
-        SQLParser parser = initParser(line);
+
+        String line;
+        line = in.nextLine();
         SSQLEngine engine = initEngine();
+        File file = new File("src/main/resources/ssql");
+        for (File child : Objects.requireNonNull(file.listFiles()))
+            engine.input(child);
 
         while (!line.equals("exit")) {
 
-            File file = new File("src/main/resources/ssql");
-            for (File child : Objects.requireNonNull(file.listFiles()))
-                engine.input(child);
+            if (line.equals("show tables")) {
+                FormatUtil.printTableNames();
+            } else {
+                SQLParser parser = initParser(line);
+                QueryInfo info = (QueryInfo) parser.query().accept(visitor);
+                QueryChecker checker = new QueryChecker();
+                if (checker.check(info)) {
+                    engine.execute(info);
+                }
 
-            QueryInfo info = (QueryInfo) parser.query().accept(visitor);
-            QueryChecker checker = new QueryChecker();
-            if (checker.check(info)) {
-                engine.execute(info);
-            }
-
-            // :( Bad Solution to synchronize ERR and OUT streams.
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                // :( Bad Solution to synchronize ERR and OUT streams.
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             System.out.print("sSQL> ");

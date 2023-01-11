@@ -73,6 +73,7 @@ public class SSQLEngine {
                     storage.insert(doc);
                 }
                 storageManager.putTable(tableName, storage);
+                stream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

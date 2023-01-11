@@ -33,6 +33,7 @@ public class SSQLVisitor extends SQLBaseVisitor {
         PredicateSet ret;
         if (ctx.children.size() == 2) {
             ret = visitPredicate((SQLParser.PredicateContext) ctx.getChild(1));
+            ret.isNeg();
         } else {
             ParseTree left = ctx.getChild(0);
             ParseTree operator = ctx.getChild(1);

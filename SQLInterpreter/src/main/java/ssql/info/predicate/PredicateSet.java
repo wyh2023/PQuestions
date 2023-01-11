@@ -13,7 +13,7 @@ public abstract class PredicateSet {
 
     protected List<Predicate> leaves;
 
-    private boolean isNeg;
+    private boolean isNeg = false;
 
     public List<Predicate> getLeaves() {
         return leaves;
@@ -27,8 +27,8 @@ public abstract class PredicateSet {
         return right;
     }
 
-    public void setNeg(boolean neg) {
-        isNeg = neg;
+    public void isNeg() {
+        isNeg = !isNeg;
     }
 
     public boolean getNeg() {
@@ -45,20 +45,22 @@ public abstract class PredicateSet {
             List<Predicate> rightAll = right.getAllPredicate();
             ret.addAll(rightAll);
         }
-        ret.addAll(this.leaves);
+        if (this.leaves != null) ret.addAll(this.leaves);
         return ret;
     }
 
     public boolean checkContain(Document document) {
         boolean ret = true;
-        for (Predicate p : leaves) {
-            ret &= document.judge(p.getLVal(), p.getRVal());
+        if (this.leaves != null) {
+            for (Predicate p : leaves) {
+                ret &= document.judge(p.getLVal(), p.getRVal());
+            }
         }
-        if (left != null && right != null) {
+        if (ret && left != null && right != null) {
             boolean l = left.checkContain(document);
             boolean r = right.checkContain(document);
-            ret &= l | r;
+            ret = l | r;
         }
-        return ret;
+        return ret ^ isNeg;
     }
 }

@@ -10,7 +10,7 @@ public class SSQLErrorListener extends ConsoleErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
                             int charPositionInLine, String msg, RecognitionException e) {
         System.err.println("Syntax Error!");
-        System.exit(-2);
+        System.exit(0);
     }
 
 }
